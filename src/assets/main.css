@@ -1,0 +1,19 @@
+@import './base.css';
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+body {
+  font-family: 'Noto Sans HK', 'Noto Sans', sans-serif;
+  line-height: 2.5;
+}
+
+#app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-weight: normal;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+}
