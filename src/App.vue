@@ -5,34 +5,49 @@ const odbApiUrl = 'https://api.experience.odb.org/devotionals/v2';
 const englishSiteId = 1;
 const traditioalChineseSiteId = 7;
 
-const currentDate = new Date().toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: '2-digit',
-  day: '2-digit'
-}).replace(/\//g, '-');
+const todayUnixTimestamp = new Date().setHours(0, 0, 0, 0);
 
 const englishUrl = new URL(odbApiUrl);
 englishUrl.searchParams.append('site_id', englishSiteId.toString());
 englishUrl.searchParams.append('status', 'publish');
 englishUrl.searchParams.append('country', 'US');
-englishUrl.searchParams.append('on', currentDate);
+englishUrl.searchParams.append('on', todayUnixTimestamp.toString());
 
 const traditioalChineseUrl = new URL(odbApiUrl);
 traditioalChineseUrl.searchParams.append('site_id', traditioalChineseSiteId.toString());
 traditioalChineseUrl.searchParams.append('status', 'publish');
 traditioalChineseUrl.searchParams.append('country', 'US');
-traditioalChineseUrl.searchParams.append('on', currentDate);
+traditioalChineseUrl.searchParams.append('on', todayUnixTimestamp.toString());
 
-const traditionalChinese = ref({});
-const english = ref({});
+type Devotional = {
+  title: string;
+  verse: string;
+  content: string;
+  thought: string;
+  response: string;
+}
+
+const traditionalChinese = ref<Devotional>({
+  title: '',
+  verse: '',
+  content: '',
+  thought: '',
+  response: '',
+});
+
+const english = ref<Devotional>({
+  title: '',
+  verse: '',
+  content: '',
+  thought: '',
+  response: '',
+});
 const bible = ref();
 
 
 onMounted(async () => {
   fetchEnglishDevotional();
   fetchTraditioalChineseDevotional();
-  // fetchBible("Exodus 20:1-4, 7-8, 12-17");
-  // fetchBible(english.value.passage_reference);
 })
 
 const fetchTraditioalChineseDevotional = async () => {
@@ -57,9 +72,14 @@ const fetchEnglishDevotional = async () => {
 
 const fetchBible = async (passageReference: string) => {
   try {
-    const u = 'https://www.odbm.org/api/bible/search?bibleId=c44765fbdfdb0ed9-01&query=' + encodeURIComponent(passageReference);
-    const bibleResponse = await fetch(u);
-    const bibleData = await bibleResponse.json();
+    const bibleId = "c44765fbdfdb0ed9-01"; // ESV
+
+    const odbBibleUrl = new URL('https://www.odbm.org/api/bible/search');
+    odbBibleUrl.searchParams.append('bibleId', bibleId);
+    odbBibleUrl.searchParams.append('query', passageReference);
+
+    const response = await fetch(odbBibleUrl.toString());
+    const bibleData = await response.json();
 
     bible.value = bibleData.data.passages;
   } catch (error) {
