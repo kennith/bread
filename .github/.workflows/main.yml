@@ -1,0 +1,32 @@
+name: Build and Deploy Vue Application to Github Pages
+
+on:
+  push:
+    branches:
+      - main # or master, depending on your primary branch name
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4 # Use a recent version of the checkout action
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Specify the Node.js version you use (e.g., '16', '18', '20')
+
+      - name: Install dependencies
+        run: npm install # or yarn install, pnpm install
+
+      - name: Build Vue application
+        run: npm run build # This command generates the 'dist' folder
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3 # A popular action for deployment
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }} # Built-in token for authentication
+          publish_dir: ./dist # The directory produced by the build command
+          # if you are using a router in your app, use the 'with: cname: yourdomain.com' line if needed.
