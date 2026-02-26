@@ -1,32 +1,51 @@
-name: Build and Deploy Vue Application to Github Pages
+# Simple workflow for deploying static content to GitHub Pages
+name: Deploy static content to Pages
 
 on:
+  # Runs on pushes targeting the default branch
   push:
-    branches:
-      - main # or master, depending on your primary branch name
+    branches: ['main']
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets the GITHUB_TOKEN permissions to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment
+concurrency:
+  group: 'pages'
+  cancel-in-progress: true
 
 jobs:
-  build-and-deploy:
+  # Single deploy job since we're just deploying
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4 # Use a recent version of the checkout action
-
-      - name: Set up Node.js
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # Specify the Node.js version you use (e.g., '16', '18', '20')
-
+          node-version: 20
+          cache: 'npm'
       - name: Install dependencies
-        run: npm install # or yarn install, pnpm install
-
-      - name: Build Vue application
-        run: npm run build # This command generates the 'dist' folder
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3 # A popular action for deployment
+        run: npm ci
+      - name: Build
+        run: npm run build
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }} # Built-in token for authentication
-          publish_dir: ./dist # The directory produced by the build command
-          # if you are using a router in your app, use the 'with: cname: yourdomain.com' line if needed.
+          # Upload dist folder
+          path: './dist'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
