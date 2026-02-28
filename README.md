@@ -1,6 +1,18 @@
-# daily-bread
+# Bread
 
-Easy Read
+Easy Read on our daily bread.
+
+## APIs
+
+- https://api.experience.odb.org/devotionals/v2/?site_id=7&on=1772265600000
+  - 7 => Traditional Chinese
+  - 1 => English
+  - on 1772265600000 (unix timestamp)
+
+- https://www.odbm.org/api/bible/search/?bibleId=<bible-id>&query=<bible-verse>
+  - c44765fbdfdb0ed9-01 CUN
+  - 71c6eab17ae5b667-01 NIV
+  - john 3:16 (e.g. bible verse)
 
 ## Recommended IDE Setup
 
