@@ -15,7 +15,9 @@ const fetchBible = async (passageReference: string) => {
 
     let response = await fetchVerse(cun, passageReference)
 
-    if (response.status == 500) {
+    const data = await response.json()
+
+    if (!response.ok || !data?.passages?.length) {
       response = await fetchVerse(niv, passageReference)
     }
 
