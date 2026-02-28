@@ -31,7 +31,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="flex flex-col xl:flex-col gap-5 text-lg/10 mx-auto xl:max-w-7xl">
+  <div class="flex flex-col xl:flex-col text-lg/10 lg:mx-auto xl:max-w-7xl max-w-[80ch] mx-8">
     <div class="mx-auto w-full">
       <Section>
         <div v-html="traditionalChinese.title" class="text-2xl font-bold"> </div>
@@ -39,7 +39,7 @@ onMounted(async () => {
         <div>- {{ traditionalChinese.lang_author_name }}</div>
       </Section>
     </div>
-    <div class="xl:flex xl:flex-row xl:gap-5 justify-evenly">
+    <div class="xl:flex xl:flex-row xl:gap-8 justify-evenly">
       <div class="xl:w-1/2">
         <Section>
           <Title>經文</Title>

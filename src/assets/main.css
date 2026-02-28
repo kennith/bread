@@ -4,10 +4,3 @@
 body {
   font-family: 'Noto Sans HK', 'Noto Sans', sans-serif;
 }
-
-#app {
-  margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
-  width: 100%;
-}
