@@ -15,6 +15,7 @@ const devotional = {
   passage_reference: '',
   lang_author_name: '',
   insights: '',
+  passage_url: '',
 }
 
 const traditionalChinese = ref<Devotional>(devotional);
@@ -35,6 +36,7 @@ onMounted(async () => {
     <div class="mx-auto w-full">
       <Section>
         <div v-html="traditionalChinese.title" class="text-2xl font-bold"> </div>
+        <a v-html="traditionalChinese.passage_reference" :href="traditionalChinese.passage_url" class="text-xs italic" target="_blank" rel="noopener noreferrer"></a>
         <div v-html="traditionalChinese.verse"> </div>
         <div>- {{ traditionalChinese.lang_author_name }}</div>
       </Section>
