@@ -4,17 +4,7 @@ import Title from '@/components/TitleComponent.vue';
 import Section from '@/components/SectionComponent.vue';
 import { fetchTraditioalChineseDevotional, fetchEnglishDevotional } from '@/composable/useFetchDevotional.vue';
 import { fetchBible } from '@/composable/useBible.vue';
-
-type Devotional = {
-  title: string;
-  verse: string;
-  content: string;
-  thought: string;
-  response: string;
-  passage_reference: string;
-  lang_author_name: string;
-  insights: string;
-}
+import type { Devotional } from '@/types/devotional';
 
 const devotional = {
   title: '',
