@@ -107,7 +107,7 @@ const fetchBible = async (passageReference: string) => {
 
 <template>
   <div class="flex flex-col gap-4 text-lg/10">
-    <div v-html="traditionalChinese.title" class="text-5xl font-black"> </div>
+    <div v-html="traditionalChinese.title" class="text-2xl font-bold"> </div>
     <div v-html="traditionalChinese.verse"> </div>
     <div>- {{ traditionalChinese.lang_author_name }}</div>
 
@@ -119,7 +119,9 @@ const fetchBible = async (passageReference: string) => {
     </Section>
 
     <Section>
-      <Title>靈糧透視</Title>
+      <Title>
+        靈糧透視
+      </Title>
       <div v-html="traditionalChinese.insights"></div>
     </Section>
 
