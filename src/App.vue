@@ -2,8 +2,8 @@
 import { onMounted, ref } from 'vue';
 import Title from '@/components/TitleComponent.vue';
 import Section from '@/components/SectionComponent.vue';
-import { fetchTraditioalChineseDevotional, fetchEnglishDevotional } from '@/composable/useFetchDevotional.vue';
-import { fetchBible } from '@/composable/useBible.vue';
+import { fetchTraditioalChineseDevotional, fetchEnglishDevotional } from '@/composable/useFetchDevotional';
+import { fetchBible } from '@/composable/useBible';
 import type { Devotional } from '@/types/devotional';
 
 const devotional = {
