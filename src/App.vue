@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
+import Title from '@/components/TitleComponent.vue';
+import Section from '@/components/SectionComponent.vue';
 
 const odbApiUrl = 'https://api.experience.odb.org/devotionals/v2';
 const englishSiteId = 1;
@@ -70,43 +72,73 @@ const fetchEnglishDevotional = async () => {
   }
 }
 
+const fetchVerse = async (bibleId: string, passage: string) => {
+  const odbBibleUrl = new URL('https://www.odbm.org/api/bible/search');
+  odbBibleUrl.searchParams.append('bibleId', bibleId);
+  odbBibleUrl.searchParams.append('query', passage);
+
+  const response = await fetch(odbBibleUrl.toString());
+
+  return response;
+
+}
+
 const fetchBible = async (passageReference: string) => {
   try {
-    const bibleId = "c44765fbdfdb0ed9-01"; // ESV
+    const cun = "c44765fbdfdb0ed9-01"; // CUN
+    const niv = '71c6eab17ae5b667-01';
 
-    const odbBibleUrl = new URL('https://www.odbm.org/api/bible/search');
-    odbBibleUrl.searchParams.append('bibleId', bibleId);
-    odbBibleUrl.searchParams.append('query', passageReference);
+    let response = await fetchVerse(cun, passageReference);
 
-    const response = await fetch(odbBibleUrl.toString());
+    if (response.status == 500) {
+      response = await fetchVerse(niv, passageReference);
+    }
+
     const bibleData = await response.json();
+
 
     bible.value = bibleData.data.passages;
   } catch (error) {
-    console.error(error);
+    console.log(error);
   }
 }
 
 </script>
 
 <template>
-  <div v-for="passage in bible" :key="passage.id">
-    <div v-html="passage.reference"></div>
-    <div v-html="passage.content"></div>
+  <div class="flex flex-col gap-4 text-lg/10">
+    <div v-html="traditionalChinese.title" class="text-5xl font-black"> </div>
+    <div v-html="traditionalChinese.verse"> </div>
+    <div>- {{ traditionalChinese.lang_author_name }}</div>
+
+    <Section>
+      <div v-for="passage in bible" :key="passage.id">
+        <div v-html="passage.reference"></div>
+        <div v-html="passage.content"></div>
+      </div>
+    </Section>
+
+    <Section>
+      <Title>靈糧透視</Title>
+      <div v-html="traditionalChinese.insights"></div>
+    </Section>
+
+    <Section>
+      <div v-html="traditionalChinese.content"> </div>
+    </Section>
+
+    <Section>
+      <Title>靈修思考</Title>
+      <div v-html="traditionalChinese.response"> </div>
+    </Section>
+
+    <Section>
+      <Title>回應</Title>
+      <div v-html="traditionalChinese.thought"> </div>
+    </Section>
+
+
   </div>
-
-  <div>Title</div>
-  <div v-html="traditionalChinese.title"> </div>
-  <div>Verse</div>
-  <div v-html="traditionalChinese.verse"> </div>
-  <div>Content</div>
-  <div v-html="traditionalChinese.content"> </div>
-  <div>Thought</div>
-  <div v-html="traditionalChinese.thought"> </div>
-  <div>Response</div>
-  <div v-html="traditionalChinese.response"> </div>
-
-
 </template>
 
 <style scoped></style>
