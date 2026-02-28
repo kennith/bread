@@ -5,7 +5,7 @@
     "start_url": "/bread/",
     "display": "standalone",
     "background_color": "#AC5811",
-    "theme_color": "#000000",
+    "theme_color": "#AC5811",
     "icons": [
         {
             "src": "/bread/favicon.png",
