@@ -31,39 +31,49 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-4 text-lg/10">
-    <div v-html="traditionalChinese.title" class="text-2xl font-bold"> </div>
-    <div v-html="traditionalChinese.verse"> </div>
-    <div>- {{ traditionalChinese.lang_author_name }}</div>
+  <div class="flex flex-col xl:flex-col gap-5 text-lg/10 mx-auto xl:max-w-7xl">
+    <div class="mx-auto w-full">
+      <Section>
+        <div v-html="traditionalChinese.title" class="text-2xl font-bold"> </div>
+        <div v-html="traditionalChinese.verse"> </div>
+        <div>- {{ traditionalChinese.lang_author_name }}</div>
+      </Section>
+    </div>
+    <div class="xl:flex xl:flex-row xl:gap-5 justify-evenly">
+      <div class="xl:w-1/2">
+        <Section>
+          <Title>經文</Title>
 
-    <Section>
-      <div v-for="passage in bible" :key="passage.id">
-        <div v-html="passage.reference"></div>
-        <div v-html="passage.content"></div>
+          <div v-for="passage in bible" :key="passage.id">
+            <div v-html="passage.reference"></div>
+            <div v-html="passage.content"></div>
+          </div>
+        </Section>
+
+        <Section>
+          <Title> 靈糧透視 </Title>
+          <div v-html="traditionalChinese.insights"></div>
+        </Section>
+
       </div>
-    </Section>
 
-    <Section>
-      <Title>
-        靈糧透視
-      </Title>
-      <div v-html="traditionalChinese.insights"></div>
-    </Section>
+      <div class="xl:w-1/2">
+        <Section>
+          <Title>文章</Title>
+          <div v-html="traditionalChinese.content"> </div>
+        </Section>
 
-    <Section>
-      <div v-html="traditionalChinese.content"> </div>
-    </Section>
+        <Section>
+          <Title>靈修思考</Title>
+          <div v-html="traditionalChinese.response"> </div>
+        </Section>
 
-    <Section>
-      <Title>靈修思考</Title>
-      <div v-html="traditionalChinese.response"> </div>
-    </Section>
-
-    <Section>
-      <Title>回應</Title>
-      <div v-html="traditionalChinese.thought"> </div>
-    </Section>
-
+        <Section>
+          <Title>回應</Title>
+          <div v-html="traditionalChinese.thought"> </div>
+        </Section>
+      </div>
+    </div>
 
   </div>
 </template>

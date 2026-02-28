@@ -6,9 +6,8 @@ body {
 }
 
 #app {
-  /* Optimal reading width: 65-75 characters per line */
-  max-width: 80ch;
   margin: 0 auto;
   padding: 2rem;
   font-weight: normal;
+  width: 100%;
 }
