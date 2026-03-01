@@ -4,3 +4,9 @@
 body {
   font-family: 'Noto Sans HK', 'Noto Sans', sans-serif;
 }
+
+.v {
+  font-size: var(--text-xs);
+  color: var(--color-gray-300);
+  padding-right: var(--spacing);
+}
