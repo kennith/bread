@@ -13,17 +13,10 @@ const fetchBible = async (passageReference: string) => {
     const cun = 'c44765fbdfdb0ed9-01' // CUN
     const niv = '71c6eab17ae5b667-01'
 
-    let response = await fetchVerse(cun, passageReference)
+    const response = await fetchVerse(cun, passageReference)
+    const { data } = await response.json()
 
-    const data = await response.json()
-
-    if (!response.ok || !data?.passages?.length) {
-      response = await fetchVerse(niv, passageReference)
-    }
-
-    const bibleData = await response.json()
-
-    return bibleData.data.passages
+    return data.passages
   } catch (error) {
     console.log(error)
   }
