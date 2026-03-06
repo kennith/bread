@@ -34,11 +34,17 @@ onMounted(async () => {
 <template>
   <div class="flex flex-col xl:flex-col text-lg/10 lg:mx-auto xl:max-w-7xl max-w-[80ch] mx-8">
     <Section class="flex justify-between flex-col-reverse sm:flex-row gap-3">
-      <div>
-        <div v-html="traditionalChinese.title" class="text-2xl font-bold"></div>
-        <a v-html="traditionalChinese.passage_reference" :href="traditionalChinese.passage_url" class="text-xs italic" target="_blank" rel="noopener noreferrer"></a>
-        <div v-html="traditionalChinese.verse"> </div>
-        <div>- {{ traditionalChinese.lang_author_name }}</div>
+      <div class="flex flex-col">
+        <div class="flex gap-3 justify-items-end items-baseline">
+          <div class="text-2xl font-bold">
+            {{ traditionalChinese.title }}
+          </div>
+          <div class="text-sm text-gray-700">{{ traditionalChinese.lang_author_name }}</div>
+        </div>
+        <div>
+          <a v-html="traditionalChinese.passage_reference" :href="traditionalChinese.passage_url" class="text-xs italic" target="_blank" rel="noopener noreferrer"></a>
+          <div v-html="traditionalChinese.verse"> </div>
+        </div>
       </div>
       <div>
         <div class="text-sm text-gray-500">{{ new Date().toLocaleDateString('zh-HK', { year: 'numeric', month: 'long', day: 'numeric' }) }}</div>
