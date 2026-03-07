@@ -35,7 +35,7 @@ onMounted(async () => {
   <div class="flex flex-col xl:flex-col text-lg/10 lg:mx-auto xl:max-w-7xl max-w-[80ch] mx-8">
     <Section class="flex justify-between flex-col-reverse sm:flex-row gap-3">
       <div class="flex flex-col">
-        <div class="flex gap-3 justify-items-end items-baseline">
+        <div class="flex gap-3 justify-items-end items-center">
           <div class="text-2xl font-bold">
             {{ traditionalChinese.title }}
           </div>
