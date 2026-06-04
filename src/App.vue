@@ -23,16 +23,13 @@ const traditionalChinese = ref<Devotional>(devotional)
 
 type DevotionalBibleReference = {
   id: string
-  orgId: string
-  passage: {
-    id: string
-    reference: string
-    content: string
-  }
+  reference: string
+  content: string
 }
-const devotionBibleReferences = ref<DevotionalBibleReference[]>([])
 
-const bibleReferences = (reference: string): string => {
+const devotionBibleReferences = ref<DevotionalBibleReference[][]>([])
+
+const getBibleReferences = (reference: string): string => {
   const seperator = '-'
   const parts = reference.split(seperator) as [string, string]
   if (parts.length !== 2) {
@@ -51,13 +48,15 @@ onMounted(async () => {
   ;[traditionalChinese.value] = await fetchTraditioalChineseDevotional()
   const appBibleReferences = traditionalChinese.value.app_bible_references
 
-  const appBibleReference = appBibleReferences.split(';')
+  const bibleReferences = appBibleReferences.split(';')
 
-  appBibleReference.forEach(async (reference) => {
-    devotionBibleReferences.value.push(await fetchBible(bibleReferences(reference)))
+  bibleReferences.forEach(async (reference: string) => {
+    const passages = await fetchBible(getBibleReferences(reference))
+    if (passages) {
+      devotionBibleReferences.value.push(passages as DevotionalBibleReference[])
+    }
   })
 })
-console.log(devotionBibleReferences.value)
 </script>
 
 <template>
@@ -99,8 +98,8 @@ console.log(devotionBibleReferences.value)
           <Title>經文</Title>
 
           <div
-            v-for="devotionBibleReference in devotionBibleReferences"
-            v-bind:key="devotionBibleReference.id"
+            v-for="(devotionBibleReference, referenceIndex) in devotionBibleReferences"
+            v-bind:key="referenceIndex"
           >
             <div v-for="passage in devotionBibleReference" :key="passage.id">
               <div v-html="passage.reference"></div>
