@@ -11,3 +11,7 @@ body {
   padding-right: var(--spacing);
   vertical-align: top;
 }
+
+.s {
+  font-style: italic;
+}
