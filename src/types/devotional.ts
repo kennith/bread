@@ -8,4 +8,5 @@ export type Devotional = {
   lang_author_name: string
   insights: string
   passage_url: string
+  app_bible_references: string
 }
