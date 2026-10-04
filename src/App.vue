@@ -1,68 +1,68 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import Title from '@/components/TitleComponent.vue'
-import Section from '@/components/SectionComponent.vue'
+import { onMounted, ref } from "vue";
+import Title from "@/components/TitleComponent.vue";
+import Section from "@/components/SectionComponent.vue";
 import {
   fetchEnglishDevotional,
   fetchTraditioalChineseDevotional,
-} from '@/composable/useFetchDevotional'
-import { fetchBible } from '@/composable/useBible'
-import type { Devotional } from '@/types/devotional'
+} from "@/composable/useFetchDevotional";
+import { fetchBible } from "@/composable/useBible";
+import type { Devotional } from "@/types/devotional";
 
 const devotional = {
-  title: '',
-  verse: '',
-  content: '',
-  thought: '',
-  response: '',
-  passage_reference: '',
-  lang_author_name: '',
-  insights: '',
-  passage_url: '',
-  app_bible_references: '',
-}
+  title: "",
+  verse: "",
+  content: "",
+  thought: "",
+  response: "",
+  passage_reference: "",
+  lang_author_name: "",
+  insights: "",
+  passage_url: "",
+  app_bible_references: "",
+};
 
-const devotion = ref<Devotional>(devotional)
+const devotion = ref<Devotional>(devotional);
 
 type DevotionalBibleReference = {
-  id: string
-  reference: string
-  content: string
-}
+  id: string;
+  reference: string;
+  content: string;
+};
 
-const devotionBibleReferences = ref<DevotionalBibleReference[][]>([])
+const devotionBibleReferences = ref<DevotionalBibleReference[][]>([]);
 
 const getBibleReferences = (reference: string): string => {
-  const seperator = '-'
-  const parts = reference.split(seperator) as [string, string]
+  const seperator = "-";
+  const parts = reference.split(seperator) as [string, string];
   if (parts.length !== 2) {
-    return reference
+    return reference;
   }
-  return validBibleReference(parts)
-}
+  return validBibleReference(parts);
+};
 
 const validBibleReference = (references: [string, string]) => {
-  const [firstParts, secondParts] = [references[0].split('.'), references[1].split('.')]
+  const [firstParts, secondParts] = [references[0].split("."), references[1].split(".")];
 
-  return firstParts[0] + '.' + firstParts[1] + '.' + firstParts[2] + '-' + secondParts[2]
-}
+  return firstParts[0] + "." + firstParts[1] + "." + firstParts[2] + "-" + secondParts[2];
+};
 
 onMounted(async () => {
-  [devotion.value] = await fetchEnglishDevotional()
-  const appBibleReferences = devotion.value.passage_reference
+  [devotion.value] = await fetchEnglishDevotional();
+  const appBibleReferences = devotion.value.passage_reference;
 
   // ;[devotion.value] = await fetchTraditioalChineseDevotional()
   // const appBibleReferences = devotion.value.app_bible_references
 
-  const bibleReferences = appBibleReferences.split(';')
+  const bibleReferences = appBibleReferences.split(";");
 
   bibleReferences.forEach(async (reference: string) => {
-    const passages = await fetchBible(getBibleReferences(reference))
+    const passages = await fetchBible(getBibleReferences(reference));
     if (passages) {
-      devotionBibleReferences.value.push(passages as DevotionalBibleReference[])
+      devotionBibleReferences.value.push(passages as DevotionalBibleReference[]);
     }
-  })
-})
+  });
+});
 </script>
 
 <template>
@@ -76,17 +76,23 @@ onMounted(async () => {
           <div class="text-sm text-gray-700">{{ devotion.lang_author_name }}</div>
         </div>
         <div>
-          <a v-html="devotion.passage_reference" :href="devotion.passage_url" class="text-xs italic" target="_blank" rel="noopener noreferrer"></a>
+          <a
+            v-html="devotion.passage_reference"
+            :href="devotion.passage_url"
+            class="text-xs italic"
+            target="_blank"
+            rel="noopener noreferrer"
+          ></a>
           <div v-html="devotion.verse"></div>
         </div>
       </div>
       <div>
         <div class="text-sm text-gray-500">
           {{
-            new Date().toLocaleDateString('zh-HK', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
+            new Date().toLocaleDateString("zh-HK", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
             })
           }}
         </div>
@@ -97,7 +103,10 @@ onMounted(async () => {
         <Section>
           <Title>經文</Title>
 
-          <div v-for="(devotionBibleReference, referenceIndex) in devotionBibleReferences" v-bind:key="referenceIndex">
+          <div
+            v-for="(devotionBibleReference, referenceIndex) in devotionBibleReferences"
+            v-bind:key="referenceIndex"
+          >
             <div v-for="passage in devotionBibleReference" :key="passage.id">
               <div v-html="passage.reference"></div>
               <div v-html="passage.content"></div>

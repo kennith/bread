@@ -1,16 +1,16 @@
 {
-    "name": "Bread",
-    "short_name": "bread",
-    "description": "Daily bread for your soul.",
-    "start_url": "/bread/",
-    "display": "standalone",
-    "background_color": "#AC5811",
-    "theme_color": "#AC5811",
-    "icons": [
-        {
-            "src": "/bread/favicon.png",
-            "sizes": "any",
-            "type": "image/png"
-        }
-    ]
+  "name": "Bread",
+  "short_name": "bread",
+  "description": "Daily bread for your soul.",
+  "start_url": "/bread/",
+  "display": "standalone",
+  "background_color": "#AC5811",
+  "theme_color": "#AC5811",
+  "icons": [
+    {
+      "src": "/bread/favicon.png",
+      "sizes": "any",
+      "type": "image/png"
+    }
+  ]
 }
