@@ -2,7 +2,10 @@
 import { onMounted, ref } from 'vue'
 import Title from '@/components/TitleComponent.vue'
 import Section from '@/components/SectionComponent.vue'
-import { fetchTraditioalChineseDevotional } from '@/composable/useFetchDevotional'
+import {
+  fetchEnglishDevotional,
+  fetchTraditioalChineseDevotional,
+} from '@/composable/useFetchDevotional'
 import { fetchBible } from '@/composable/useBible'
 import type { Devotional } from '@/types/devotional'
 
@@ -19,7 +22,7 @@ const devotional = {
   app_bible_references: '',
 }
 
-const traditionalChinese = ref<Devotional>(devotional)
+const devotion = ref<Devotional>(devotional)
 
 type DevotionalBibleReference = {
   id: string
@@ -45,8 +48,11 @@ const validBibleReference = (references: [string, string]) => {
 }
 
 onMounted(async () => {
-  ;[traditionalChinese.value] = await fetchTraditioalChineseDevotional()
-  const appBibleReferences = traditionalChinese.value.app_bible_references
+  [devotion.value] = await fetchEnglishDevotional()
+  const appBibleReferences = devotion.value.passage_reference
+
+  // ;[devotion.value] = await fetchTraditioalChineseDevotional()
+  // const appBibleReferences = devotion.value.app_bible_references
 
   const bibleReferences = appBibleReferences.split(';')
 
@@ -65,19 +71,13 @@ onMounted(async () => {
       <div class="flex flex-col">
         <div class="flex gap-3 justify-items-end items-center">
           <div class="text-2xl font-bold">
-            {{ traditionalChinese.title }}
+            {{ devotion.title }}
           </div>
-          <div class="text-sm text-gray-700">{{ traditionalChinese.lang_author_name }}</div>
+          <div class="text-sm text-gray-700">{{ devotion.lang_author_name }}</div>
         </div>
         <div>
-          <a
-            v-html="traditionalChinese.passage_reference"
-            :href="traditionalChinese.passage_url"
-            class="text-xs italic"
-            target="_blank"
-            rel="noopener noreferrer"
-          ></a>
-          <div v-html="traditionalChinese.verse"></div>
+          <a v-html="devotion.passage_reference" :href="devotion.passage_url" class="text-xs italic" target="_blank" rel="noopener noreferrer"></a>
+          <div v-html="devotion.verse"></div>
         </div>
       </div>
       <div>
@@ -97,10 +97,7 @@ onMounted(async () => {
         <Section>
           <Title>經文</Title>
 
-          <div
-            v-for="(devotionBibleReference, referenceIndex) in devotionBibleReferences"
-            v-bind:key="referenceIndex"
-          >
+          <div v-for="(devotionBibleReference, referenceIndex) in devotionBibleReferences" v-bind:key="referenceIndex">
             <div v-for="passage in devotionBibleReference" :key="passage.id">
               <div v-html="passage.reference"></div>
               <div v-html="passage.content"></div>
@@ -110,24 +107,24 @@ onMounted(async () => {
 
         <Section>
           <Title> 靈糧透視 </Title>
-          <div v-html="traditionalChinese.insights"></div>
+          <div v-html="devotion.insights"></div>
         </Section>
       </div>
 
       <div class="xl:w-1/2">
         <Section>
           <Title>文章</Title>
-          <div v-html="traditionalChinese.content"></div>
+          <div v-html="devotion.content"></div>
         </Section>
 
         <Section>
           <Title>靈修思考</Title>
-          <div v-html="traditionalChinese.response"></div>
+          <div v-html="devotion.response"></div>
         </Section>
 
         <Section>
           <Title>回應</Title>
-          <div v-html="traditionalChinese.thought"></div>
+          <div v-html="devotion.thought"></div>
         </Section>
       </div>
     </div>
