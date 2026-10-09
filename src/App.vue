@@ -48,20 +48,12 @@ const validBibleReference = (references: [string, string]) => {
 };
 
 onMounted(async () => {
-  // [devotion.value] = await fetchEnglishDevotional();
-  // const appBibleReferences = devotion.value.passage_reference;
+  [devotion.value] = await fetchEnglishDevotional();
+  const appBibleReferences = devotion.value.passage_reference;
 
-  [devotion.value] = await fetchTraditioalChineseDevotional()
-  const appBibleReferences = devotion.value.app_bible_references
+  const passages = await fetchBible(appBibleReferences);
+  devotionBibleReferences.value.push(passages as DevotionalBibleReference[]);
 
-  const bibleReferences = appBibleReferences.split(";");
-
-  bibleReferences.forEach(async (reference: string) => {
-    const passages = await fetchBible(getBibleReferences(reference));
-    if (passages) {
-      devotionBibleReferences.value.push(passages as DevotionalBibleReference[]);
-    }
-  });
 });
 </script>
 
@@ -89,7 +81,7 @@ onMounted(async () => {
       <div>
         <div class="text-sm text-gray-500">
           {{
-            new Date().toLocaleDateString("zh-HK", {
+            new Date().toLocaleDateString("en-US", {
               year: "numeric",
               month: "long",
               day: "numeric",
@@ -101,7 +93,7 @@ onMounted(async () => {
     <div class="xl:flex xl:flex-row xl:gap-8 justify-evenly">
       <div class="xl:w-1/2">
         <Section>
-          <Title>經文</Title>
+          <Title>Passages</Title>
 
           <div
             v-for="(devotionBibleReference, referenceIndex) in devotionBibleReferences"
@@ -115,24 +107,24 @@ onMounted(async () => {
         </Section>
 
         <Section>
-          <Title> 靈糧透視 </Title>
+          <Title> Insights </Title>
           <div v-html="devotion.insights"></div>
         </Section>
       </div>
 
       <div class="xl:w-1/2">
         <Section>
-          <Title>文章</Title>
+          <Title>Article</Title>
           <div v-html="devotion.content"></div>
         </Section>
 
         <Section>
-          <Title>靈修思考</Title>
+          <Title>Reflection</Title>
           <div v-html="devotion.response"></div>
         </Section>
 
         <Section>
-          <Title>回應</Title>
+          <Title>Response</Title>
           <div v-html="devotion.thought"></div>
         </Section>
       </div>
