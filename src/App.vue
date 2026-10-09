@@ -48,11 +48,11 @@ const validBibleReference = (references: [string, string]) => {
 };
 
 onMounted(async () => {
-  [devotion.value] = await fetchEnglishDevotional();
-  const appBibleReferences = devotion.value.passage_reference;
+  // [devotion.value] = await fetchEnglishDevotional();
+  // const appBibleReferences = devotion.value.passage_reference;
 
-  // ;[devotion.value] = await fetchTraditioalChineseDevotional()
-  // const appBibleReferences = devotion.value.app_bible_references
+  [devotion.value] = await fetchTraditioalChineseDevotional()
+  const appBibleReferences = devotion.value.app_bible_references
 
   const bibleReferences = appBibleReferences.split(";");
 

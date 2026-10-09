@@ -4,6 +4,7 @@ const todayUnixTimestamp = new Date().setHours(0, 0, 0, 0);
 const fetchTraditioalChineseDevotional = async () => {
   const traditioalChineseSiteId = 7;
   const traditioalChineseUrl = new URL(odbApiUrl);
+
   traditioalChineseUrl.searchParams.append("site_id", traditioalChineseSiteId.toString());
   traditioalChineseUrl.searchParams.append("status", "publish");
   traditioalChineseUrl.searchParams.append("country", "US");
