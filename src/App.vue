@@ -53,16 +53,15 @@ onMounted(async () => {
 
   const passages = await fetchBible(appBibleReferences);
   devotionBibleReferences.value.push(passages as DevotionalBibleReference[]);
-
 });
 </script>
 
 <template>
-  <div class="flex flex-col xl:flex-col text-lg/10 lg:mx-auto xl:max-w-7xl max-w-[80ch] mx-8">
+  <div class="flex flex-col xl:flex-col text-lg/loose lg:mx-auto xl:max-w-7xl max-w-[80ch] mx-8">
     <Section class="flex justify-between flex-col-reverse sm:flex-row gap-3">
       <div class="flex flex-col">
         <div class="flex gap-3 justify-items-end items-center">
-          <div class="text-2xl font-bold">
+          <div class="text-2xl font-bold uppercase">
             {{ devotion.title }}
           </div>
           <div class="text-sm text-gray-700">{{ devotion.lang_author_name }}</div>
@@ -100,7 +99,7 @@ onMounted(async () => {
             v-bind:key="referenceIndex"
           >
             <div v-for="passage in devotionBibleReference" :key="passage.id">
-              <div v-html="passage.reference"></div>
+              <div v-html="passage.reference" class="text-sm font-bold"></div>
               <div v-html="passage.content"></div>
             </div>
           </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="text-xl mb-3 text-gray-500">
+  <div class="mb-1 text-gray-500 uppercase">
     <slot />
   </div>
 </template>
